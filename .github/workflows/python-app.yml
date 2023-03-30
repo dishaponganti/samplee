@@ -22,7 +22,9 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_PASSWORD: postgres_password
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -31,7 +33,7 @@ jobs:
           
     steps:
     - name: Test PostgresSQL Connection
-      run: psql -h ${{job.services.postgres.address.postgres }} -U postgres -d postgres_db -c "select version()"
+      run: psql -h ${{ job.services.postgres.addresses.postgres }} -U postgres -d test_db -c "SELECT version()"
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
