@@ -16,22 +16,22 @@ def database_creds():
 
 
 @pytest.fixture
-def test_sample_organization_data():
+def test_sample_query():
 	"""
-	Sample record from native.organizations table
-	:return: List of [organization id, organization name]
+	Sample record from cdm_synthea10.person table
+	:return: List of [person_id, gender_concept_id]
 	"""
-	org_id = "43e22208-dae0-3196-b30b-17b3c50679c2"
-	org_name = "GREATER LAWRENCE FAMILY HEALTH CENTER INC"
-	return [f"select distinct name from native.organizations where id='{org_id}';", org_name]
+	per_id = "324"
+	gender_concept_id = "8532"
+	return [f"select distinct gender_concept_id from cdm_synthea10.person where person_id='{per_id}';", gender_concept_id]
 
 
 @pytest.fixture
 def test_sample_person_data():
 	"""
-	Sample record from cdm_synthea10.person table
+	Sample record from native.observations table
 	:return: List of [person id, person id]
 	"""
-	return [["43"], ""]
+	return [["43"], "43"]
 
 
