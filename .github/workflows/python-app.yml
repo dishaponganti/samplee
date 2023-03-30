@@ -12,7 +12,11 @@ on:
 
 permissions:
   contents: read
-
+env:
+  host: localhost
+  database: synthea_etl
+  username: read_write
+  password: password
 jobs:
   build:
 
@@ -78,9 +82,5 @@ jobs:
     - name: Test with pytest
       run: |
         pytest test/
-        env:
-          host: localhost
-          database: synthea_etl
-          username: read_write
-          password: password
+        
    
