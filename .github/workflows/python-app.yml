@@ -24,7 +24,7 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: test_db
+          POSTGRES_DB: synthea_etl
         ports:
           - 5432:5432
         options: >-
@@ -35,10 +35,8 @@ jobs:
           
     steps:
     - name: Test PostgresSQL Connection
-      run: psql -h localhost -U postgres -d test_db -c "SELECT version()"
+      run: psql -h localhost -U postgres -d synthea_etl -c "SELECT version()"
       env:
-        # postgress password is required; alternatively, you can run:
-        # `PGPASSWORD=postgres_password psql ...`
         PGPASSWORD: postgres
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
@@ -62,12 +60,8 @@ jobs:
         sudo apt-get update
         sudo apt-get install --yes postgresql-client
         
-    - name: Query database
-      run: psql -h postgres -d postgres_db -U postgres_user -c 'SELECT 1;'
-      env:
-        # postgress password is required; alternatively, you can run:
-        # `PGPASSWORD=postgres_password psql ...`
-        PGPASSWORD: postgres_password
+    - name: Create database
+      run: psql synthea_db_script.sql
         
     - name: Lint with flake8
       run: |
