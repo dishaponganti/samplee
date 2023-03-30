@@ -5,18 +5,19 @@ import psycopg2
 import pandas as pd
 import os
 
+
 class DatabaseObjects:
 	"""DatabaseObjects class has a class instance conn which can be used without creating multiple instances
 	and to call the functions. It is initialized to None.
 	The class functions include database_connect, database_query and get_person."""
-	
+
 	def __init__(self):
 		self.host = os.environ.get('host')
 		self.database = os.environ.get('database')
 		self.username = os.environ.get('username')
 		self.password = os.environ.get('password')
 		self.conn = None
-	
+
 	def database_connect(self):
 		"""
 		This function takes 4 parameters, namely, username, password, host and database name for
@@ -42,7 +43,7 @@ class DatabaseObjects:
 		except Exception:
 			print("Caught exception", traceback.format_exc())
 			cur.close()
-	
+
 	def database_query(self, query):
 		"""
 		This function takes a query as a parameter and returns the query results in a pandas
@@ -57,7 +58,7 @@ class DatabaseObjects:
 					database=self.database,
 					user=self.username,
 					password=self.password)
-			
+
 			cur = self.conn.cursor()
 			cur.execute(query)
 			results = cur.fetchall()
@@ -82,10 +83,10 @@ class DatabaseObjects:
 					database=self.database,
 					user=self.username,
 					password=self.password)
-			
+
 			cur = self.conn.cursor()
 			all_ids = '(' + ', '.join(f"'{i}'" for i in ids) + ')'
-			cur.execute(f'select * from native.patients where id in {all_ids}')
+			cur.execute(f'select * from cdm_synthea10.person where person_id in {all_ids}')
 			results = cur.fetchall()
 			cur.close()
 			df = pd.DataFrame(results)
@@ -93,5 +94,4 @@ class DatabaseObjects:
 		except Exception:
 			print("Caught exception", traceback.format_exc())
 			cur.close()
-
 
