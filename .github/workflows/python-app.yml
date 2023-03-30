@@ -35,7 +35,11 @@ jobs:
           
     steps:
     - name: Test PostgresSQL Connection
-      run: psql -h localhost -U postgres -d test_db -p postgres -c "SELECT version()"
+      run: psql -h localhost -U postgres -d test_db -c "SELECT version()"
+      env:
+        # postgress password is required; alternatively, you can run:
+        # `PGPASSWORD=postgres_password psql ...`
+        PGPASSWORD: postgres
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
