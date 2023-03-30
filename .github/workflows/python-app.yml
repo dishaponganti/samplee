@@ -30,6 +30,8 @@ jobs:
           --health-retries 5
           
     steps:
+    - name: Test PostgresSQL Connection
+      run: psql -h ${{job.services.postgres.address.postgres }} -U postgres -d postgres_db -c "select version()"
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
