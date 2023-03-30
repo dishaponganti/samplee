@@ -38,12 +38,13 @@ jobs:
       run: psql -h localhost -U postgres -d synthea_etl -c "SELECT version()"
       env:
         PGPASSWORD: postgres
+    - name: Checkout repository
+      uses: actions/checkout@v2
     - name: Execute SQL script
       env:
         PGPASSWORD: postgres
       run: |
-        ls -R
-        find . -name "synthea_db_script.sql"
+          psql -h localhost -U postgres -d synthea_etl -f synthea_db_script.sql
         
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
