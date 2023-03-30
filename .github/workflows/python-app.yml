@@ -53,12 +53,12 @@ jobs:
         sudo apt-get install --yes postgresql-client
         
     - name: Setup database
-      run: psql -h postgres -U postgres_user -c 'CREATE DATABASE "postgres_db";'
+      run: psql -h localhost -U postgres_user -c 'CREATE DATABASE "postgres_db";'
       env:
         PGPASSWORD: password
 
     - name: Query database
-      run: psql -h postgres -d postgres_db -U postgres_user -c 'SELECT 1;'
+      run: psql -h localhost -d postgres_db -U postgres_user -c 'SELECT 1;'
       env:
         PGPASSWORD: password
         
