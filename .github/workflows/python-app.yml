@@ -51,18 +51,16 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install --yes postgresql-client
-
-    - name: Connect to PostgreSQL
-      # Runs a script that creates a PostgreSQL table, populates
-      # the table with data, and then retrieves the data.
-      run: psql -a -q -f ../synthea_db_script.sql
-      # Environment variables used by the `client.js` script to create a new PostgreSQL table.
+        
+    - name: Setup database
+      run: psql -h postgres -U postgres_user -c 'CREATE DATABASE "postgres_db";'
       env:
-        # The hostname used to communicate with the PostgreSQL service container
-        POSTGRES_HOST: localhost
-        # The default PostgreSQL port
-        POSTGRES_PORT: 5432
+        PGPASSWORD: password
 
+    - name: Query database
+      run: psql -h postgres -d postgres_db -U postgres_user -c 'SELECT 1;'
+      env:
+        PGPASSWORD: password
         
     - name: Lint with flake8
       run: |
