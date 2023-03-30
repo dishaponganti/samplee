@@ -38,6 +38,9 @@ jobs:
       run: psql -h localhost -U postgres -d synthea_etl -c "SELECT version()"
       env:
         PGPASSWORD: postgres
+    - name: Create database
+      run: psql synthea_db_script.sql
+        
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
@@ -55,14 +58,12 @@ jobs:
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         
-    - name: Install PostgreSQL client
-      run: |
-        sudo apt-get update
-        sudo apt-get install --yes postgresql-client
+#     - name: Install PostgreSQL client
+#       run: |
+#         sudo apt-get update
+#         sudo apt-get install --yes postgresql-client
         
-    - name: Create database
-      run: psql synthea_db_script.sql
-        
+  
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
