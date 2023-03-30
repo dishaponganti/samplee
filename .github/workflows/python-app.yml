@@ -35,7 +35,7 @@ jobs:
           
     steps:
     - name: Test PostgresSQL Connection
-      run: psql -h postgres -U postgres -d test_db -c "SELECT version()"
+      run: psql -h localhost -U postgres -d test_db -c "SELECT version()"
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
