@@ -22,7 +22,7 @@ def test_sample_query():
 	:return: List of [person_id, gender_concept_id]
 	"""
 	per_id = "324"
-	gender_concept_id = "8532"
+	gender_concept_id = 8532
 	return [f"select distinct gender_concept_id from cdm_synthea10.person where person_id='{per_id}';", gender_concept_id]
 
 
@@ -32,6 +32,5 @@ def test_sample_person_data():
 	Sample record from native.observations table
 	:return: List of [person id, person id]
 	"""
-	return [["43"], "43"]
-
+	return [["43"], 43]
 
