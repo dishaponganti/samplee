@@ -53,12 +53,12 @@ jobs:
         sudo apt-get install --yes postgresql-client
         
     - name: Setup database
-      run: psql -h localhost -U postgres_user -c 'CREATE DATABASE "postgres_db";'
+      run: psql -d postgresql://postgres@localhost/synthea_etl -f ../synthea_db_script.sql
       env:
         PGPASSWORD: password
 
     - name: Query database
-      run: psql -h localhost -d postgres_db -U postgres_user -c 'SELECT 1;'
+      run: psql -h localhost -d synthea_etl -U postgres -c 'SELECT 1;'
       env:
         PGPASSWORD: password
         
