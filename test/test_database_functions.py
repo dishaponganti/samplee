@@ -16,24 +16,23 @@ def test_database_connect_failure():
 		res = db_inst.database_connect()
 
 
-def test_database_query_success(test_sample_organization_data):
+def test_database_query_success(test_sample_query):
 	db_inst = db.DatabaseObjects()
-	res = db_inst.database_query(test_sample_organization_data[0])
-	assert res[0][0] == test_sample_organization_data[1]
+	res = db_inst.database_query(test_sample_query[0])
+	assert res[0][0] == test_sample_query[1]
 
 
 @pytest.mark.xfail
-def test_database_query_failure(test_sample_organization_data):
+def test_database_query_failure(test_sample_query):
 	with pytest.raises(Exception) as e_info:
 		db_inst = db.DatabaseObjects()
-		res = db_inst.database_query(test_sample_organization_data[0])
+		res = db_inst.database_query(test_sample_query[0])
 
 
 def test_get_person_success(test_sample_person_data):
 	db_inst = db.DatabaseObjects()
 	res = db_inst.get_person(test_sample_person_data[0])
-	# assert res[0][0] == test_sample_person_data[1]
-	assert res.empty
+	assert res[0][0] == test_sample_person_data[1]
 
 
 @pytest.mark.xfail
