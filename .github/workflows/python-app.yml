@@ -22,7 +22,7 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_PASSWORD: postgres_password
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -52,15 +52,12 @@ jobs:
         sudo apt-get update
         sudo apt-get install --yes postgresql-client
         
-    - name: Setup database
-      run: psql -d postgresql://postgres@localhost/synthea_etl -f ../synthea_db_script.sql
-      env:
-        PGPASSWORD: password
-
     - name: Query database
-      run: psql -h localhost -d synthea_etl -U postgres -c 'SELECT 1;'
+      run: psql -h postgres -d postgres_db -U postgres_user -c 'SELECT 1;'
       env:
-        PGPASSWORD: password
+        # postgress password is required; alternatively, you can run:
+        # `PGPASSWORD=postgres_password psql ...`
+        PGPASSWORD: postgres_password
         
     - name: Lint with flake8
       run: |
