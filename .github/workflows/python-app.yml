@@ -46,18 +46,24 @@ jobs:
         pip install pandas
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        
     - name: Install PostgreSQL client
       run: |
         sudo apt-get update
         sudo apt-get install --yes postgresql-client
-    - name: Setup database
-      run: psql -h postgres -U postgres -c 'CREATE DATABASE "synthea_etl";'
+
+    - name: Connect to PostgreSQL
+      # Runs a script that creates a PostgreSQL table, populates
+      # the table with data, and then retrieves the data.
+      run: psql -a -q -f filepath
+      # Environment variables used by the `client.js` script to create a new PostgreSQL table.
       env:
-        PGPASSWORD: password
-    - name: Query database
-      run: psql -h postgres -d postgres_db -U postgres_user -c 'SELECT 1;'
-      env:
-        PGPASSWORD: postgres_password
+        # The hostname used to communicate with the PostgreSQL service container
+        POSTGRES_HOST: localhost
+        # The default PostgreSQL port
+        POSTGRES_PORT: 5432
+
+        
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
